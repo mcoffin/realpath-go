@@ -24,10 +24,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	fmt.Println(*stripOnly)
-
 	if !*stripOnly {
-		fmt.Println("Resolving symlinks")
 		newPath, err = filepath.EvalSymlinks(newPath)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Bad path: %s\n", newPath)

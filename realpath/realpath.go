@@ -14,7 +14,7 @@ func main() {
 	args := flag.Args()
 
 	if len(args) != 1 {
-		fmt.Fprintln(os.Stderr, "Usage: realpath <path>")
+		fmt.Fprintln(os.Stderr, "Usage: realpath [-s] <path>")
 		os.Exit(1)
 	}
 

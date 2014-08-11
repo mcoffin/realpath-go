@@ -39,14 +39,14 @@ func main() {
 	}
 
 	if len(args) != 1 {
-		fmt.Fprintln(os.Stderr, "Usage: realpath [-s] <path>")
+		fmt.Fprintln(os.Stderr, "usage: realpath [-s] <path>")
+		flag.PrintDefaults()
 		os.Exit(1)
 	}
 
 	newPath, err := filepath.Abs(args[0])
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(2)
 	}
 
 	if !*stripOnly {

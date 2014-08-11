@@ -21,12 +21,14 @@ import (
 	"path/filepath"
 )
 
-const (
-	MajorVersion = 0
-	MinorVersion = 0
-)
+func printUsage() {
+	fmt.Fprintln(os.Stderr, "usage: realpath <path>")
+	flag.PrintDefaults()
+	os.Exit(2)
+}
 
 func main() {
+	flag.Usage = printUsage
 	printVersion := flag.Bool("v", false, "print version info then exit")
 	stripOnly := flag.Bool("s", false, "only strip the path, don't resolve symlinks")
 
@@ -34,14 +36,12 @@ func main() {
 	args := flag.Args()
 
 	if *printVersion {
-		fmt.Printf("realpath %d.%d\n", MajorVersion, MinorVersion)
+		fmt.Printf("realpath v%d.%d.%d\n", MajorVersion, MinorVersion, MicroVersion)
 		return
 	}
 
 	if len(args) != 1 {
-		fmt.Fprintln(os.Stderr, "usage: realpath [-s] <path>")
-		flag.PrintDefaults()
-		os.Exit(1)
+		printUsage()
 	}
 
 	newPath, err := filepath.Abs(args[0])

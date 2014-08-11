@@ -10,3 +10,4 @@ To install, simply run `go get github.com/mcoffin/realpath-go/realpath`
 
 `realpath [-s] filename`
 * `-s`: Only strip the path, don't evaluate symlinks
+* `-v`: Print version info then exit

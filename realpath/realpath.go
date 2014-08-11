@@ -16,15 +16,27 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 )
 
+const (
+	MajorVersion = 0
+	MinorVersion = 0
+)
+
 func main() {
+	printVersion := flag.Bool("v", false, "print version info then exit")
 	stripOnly := flag.Bool("s", false, "only strip the path, don't resolve symlinks")
 
 	flag.Parse()
 	args := flag.Args()
+
+	if *printVersion {
+		fmt.Printf("realpath %d.%d\n", MajorVersion, MinorVersion)
+		return
+	}
 
 	if len(args) != 1 {
 		fmt.Fprintln(os.Stderr, "Usage: realpath [-s] <path>")
@@ -33,15 +45,14 @@ func main() {
 
 	newPath, err := filepath.Abs(args[0])
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Bad path: %s\n", newPath)
+		log.Fatal(err)
 		os.Exit(2)
 	}
 
 	if !*stripOnly {
 		newPath, err = filepath.EvalSymlinks(newPath)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Bad path: %s\n", newPath)
-			os.Exit(2)
+			log.Fatal(err)
 		}
 	}
 
